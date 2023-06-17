@@ -16,6 +16,26 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] GameObject settings;
     [SerializeField] GameObject game;
+    [SerializeField] GameObject result;
+
+    private void Awake()
+    {
+        OverZone.OnCollisisonEnter += () =>
+        {
+            if (_gameRef)
+            {
+                Destroy(_gameRef);
+            }
+
+            game.SetActive(false);
+            result.SetActive(true);
+
+            if(SettingsManager.VibraEnbled)
+            {
+                Handheld.Vibrate();
+            }
+        };
+    }
 
 
     private void Start()
@@ -30,7 +50,9 @@ public class UIManager : MonoBehaviour
 
         _gameRef = Instantiate(_prefab, _parent);
 
+        result.SetActive(false);
         menu.SetActive(false);
+
         game.SetActive(true);
     }
 
@@ -49,6 +71,7 @@ public class UIManager : MonoBehaviour
 
         game.SetActive(false);
         settings.SetActive(false);
+        result.SetActive(false);
 
         menu.SetActive(true);
     }

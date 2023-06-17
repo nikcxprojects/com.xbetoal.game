@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     private const float jumpForce = 5.0f;
     private Rigidbody2D Rigidbody { get; set; }
+
+    private int score;
+    [SerializeField] Text scoreText;
 
     private void Awake()
     {
@@ -14,8 +18,29 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        score = 0;
+        scoreText.text = $"{score}";
+
         Camera.main.transform.position = new Vector3(0, 0, -10);
+
         Follower.Target = transform;
+        Generator.Target = transform;
+    }
+
+    private void Update()
+    {
+        if (Rigidbody.velocity.y < 0)
+        {
+            return;
+        }
+
+        score = Mathf.FloorToInt(transform.position.y);
+        if(score <= 0)
+        {
+            score = 0;
+        }
+
+        scoreText.text = $"{score}";
     }
 
     public void Jump(int direction)
