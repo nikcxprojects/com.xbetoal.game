@@ -17,23 +17,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject settings;
     [SerializeField] GameObject game;
 
-    [Space(10)]
-    [SerializeField] Text scoreText;
-
-    private void Awake()
-    {
-        Cup.OnStartShaking += () =>
-        {
-            score = 0;
-            scoreText.text = $"{score}";
-        };
-
-        Cup.OnEndShaking += (dice1Value, dice2Value, dice3Value) =>
-        {
-            score += (dice1Value + dice2Value + dice3Value);
-            scoreText.text = $"{score}";
-        };
-    }
 
     private void Start()
     {
@@ -42,9 +25,6 @@ public class UIManager : MonoBehaviour
 
     public void StartGame()
     {
-        score = 0;
-        scoreText.text = $"{score}";
-
         var _parent = GameObject.Find("Environment").transform;
         var _prefab = Resources.Load<GameObject>("level");
 
